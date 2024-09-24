@@ -1,0 +1,58 @@
+pipeline {
+    agent {
+        label 'general'
+    }
+
+    triggers {
+        githubPush()   // trigger the pipeline upon push event in GitHub
+    }
+
+    environment {
+        IMAGE_BASE_NAME = "netflix-images-frontend"
+        IMAGE_TAG = "v1.0.$BUILD_NUMBER"
+        DOCKER_CREDS = credentials('dockerhub')
+    }
+
+    stages {
+        stage('Docker setup') {
+            steps {
+                script {
+                    // Use script block to access environment variables and handle Docker login
+                    sh '''
+                      docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW
+                    '''
+                }
+            }
+        }
+
+        stage('Build & Push') {
+            steps {
+                script {
+                    // Define IMAGE_FULL_NAME and use it within script block
+                    def imageFullName = "${DOCKER_CREDS_USR}/${IMAGE_BASE_NAME}:${IMAGE_TAG}"
+
+                    sh """
+                      docker build -t $imageFullName .
+                      docker push $imageFullName
+                    """
+
+                    // Pass the imageFullName variable to the next stage
+                    env.IMAGE_FULL_NAME = imageFullName
+                }
+            }
+        }
+
+        stage('Trigger Deploy') {
+            steps {
+                script {
+                    // Use the IMAGE_FULL_NAME environment variable in the build step
+                    build job: 'frontend-deploy', wait: false, parameters: [
+                        string(name: 'SERVICE_NAME', value: "frontend-deployment.yaml"),
+                        string(name: 'IMAGE_FULL_NAME_PARAM', value: env.IMAGE_FULL_NAME)
+                    ]
+                }
+            }
+        }
+    }
+}
+
