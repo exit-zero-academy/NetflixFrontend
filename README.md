@@ -5,7 +5,7 @@ A simple Netflix Clone made using [Next.js](https://nextjs.org/).
 
 ### Prerequisites
 
-- Node.js (**v14.x is recommended**)
+- Node.js (**v18.x above is recommended**)
 - npm - a package manager from Node.js (comes with Node.js).
 
 ### Running the app
