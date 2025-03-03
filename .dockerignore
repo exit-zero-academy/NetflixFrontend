@@ -1,0 +1,38 @@
+# Ignore node_modules (except when using multi-stage builds)
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Ignore build files (if they exist locally)
+.next
+out
+dist
+
+# Ignore environment and config files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+
+# Ignore editor/IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Ignore logs and cache
+logs
+*.log
+.cache
+.dockerignore
+
+# Ignore dependencies if using a package manager lock file
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
