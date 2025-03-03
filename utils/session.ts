@@ -29,9 +29,10 @@ async function createNewSession(res: ServerResponse, userData: object = {}): Pro
   };
   try {
     await setSessionData(sessionId, JSON.stringify(sessionData), SESSION_TTL);
-  } catch(error) {
-    console.error('Error set session in Redis');
+  } catch (error) {
+    console.error('Cannot set session in Redis:', (error as Error).message || error);
   }
+
   setServerSessionCookie(res, sessionId);
   return sessionId;
 }
@@ -55,7 +56,7 @@ export async function getSessionId(req: IncomingMessage, res: ServerResponse): P
         }
 
     } catch(error) {
-        console.error('Error get session in Redis');
+    console.error('Cannot set session in Redis:', (error as Error).message || error);
     }
   }
 

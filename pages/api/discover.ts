@@ -24,8 +24,8 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
     response.status(200).json({ type: 'Success', data });
   } catch (error) {
-    const err = error as { data?: any }; // Type assertion
-    console.log(err.data);
-    response.status(500).json({ type: 'Error', data: err.data });
+    const err = error as Error;
+    console.log('Error accessing the NetflixMovieCatalog: ', err.message);
+    response.status(500).json({ type: 'Error', data: err });
   }
 }
