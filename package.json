@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -13,6 +13,7 @@
     "axios": "^1.4.0",
     "cookie": "^0.6.0",
     "env-var": "^7.0.1",
+    "express": "^4.21.2",
     "framer-motion": "^7.7.0",
     "js-cookie": "^3.0.5",
     "next": "^13.0.0",
